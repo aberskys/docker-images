@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# add 'server_tokens off' to nginx.conf
-# to hide server version
-
-sed -i '/http {/a \
-    server_tokens off;' /etc/nginx/nginx.conf
-
 for FILE in `ls -A /etc/nginx/site-templates/*.conf`; do
     # reset template if it is not mounted
     NAME=$(basename $FILE)

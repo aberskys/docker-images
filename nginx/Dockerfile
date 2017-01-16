@@ -16,10 +16,6 @@ RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
 RUN mkdir /etc/nginx/site-templates && mkdir /etc/nginx/sites-enabled
 
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-
 ADD init.sh /init.sh
 RUN chmod +x /init.sh
 
@@ -33,9 +29,15 @@ EXPOSE 80 443
 CMD /init.sh
 
 COPY default.conf /etc/nginx/site-templates/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Add envplate for templating with env variables
 RUN curl -sLo /usr/local/bin/ep https://github.com/kreuzwerker/envplate/releases/download/1.0.0-RC1/ep-linux && \
     chmod +x /usr/local/bin/ep
 
-#CMD [ "/usr/local/bin/ep", "-v", "/etc/nginx/sites-enabled/*.conf", "--", "/usr/sbin/nginx" ]
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+
+CMD [ "/usr/local/bin/ep", "-v", "/etc/nginx/sites-enabled/*.conf", "--", "/usr/sbin/nginx" ]
