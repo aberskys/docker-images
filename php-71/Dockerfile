@@ -8,6 +8,9 @@ ENV WWW_DIR /var/www
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+COPY init.sh /init.sh
+RUN chmod +x /init.sh
+
 CMD ["fpm"]
 ENTRYPOINT ["/entrypoint.sh"]
 
@@ -34,6 +37,7 @@ RUN yum install --enablerepo=remi,remi-php71 -y \
         php-mysql \
         php-mbstring \
         php-pdo \
+	php-pdo_mysql \
         php-process \
         php-soap \
         php-pecl-zip \

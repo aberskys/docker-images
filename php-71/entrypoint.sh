@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ -f /init.sh ]; then
+    sleep 5 && echo "[info] Running initial script" && sh /init.sh &
+fi
+
 if [ "$1" == "fpm" ]; then
     if [ "$XDEBUG" != "" ]; then
         PHP_ARGS="$PHP_ARGS -d xdebug.remote_enable=on"
